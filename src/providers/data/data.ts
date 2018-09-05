@@ -27,4 +27,10 @@ export class DataProvider {
 
   }
 
+  getCoin(coin) {
+
+    return this._http.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=" + coin + "&tsyms=USD")
+      .map(result => this.result = result);
+  }
+
 }
