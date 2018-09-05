@@ -17,9 +17,12 @@ export class DataProvider {
     console.log('Hello DataProvider Provider');
   }
 
-  getCoins() {
+  getCoins(coins) {
+    let coinList = '';
 
-    return this._http.get("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD")
+    coinsList = coins.join();
+
+    return this._http.get("https://min-api.cryptocompare.com/data/pricemulti?fsyms="+coinList+"&tsyms=USD")
       .map(result => this.result = result);
 
   }
