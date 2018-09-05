@@ -1,0 +1,7 @@
+{
+  "name": "coinful",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
