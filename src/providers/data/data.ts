@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
 /*
@@ -11,18 +11,18 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataProvider {
 
-  result: object;
+  result:any;
 
   constructor(public _http: HttpClient) {
-    console.log('Hello DataProvider Provider');
+    
   }
 
   getCoins(coins) {
-    let coinList = '';
+    let coinlist = '';
 
-    coinsList = coins.join();
+    coinlist = coins.join();
 
-    return this._http.get("https://min-api.cryptocompare.com/data/pricemulti?fsyms="+coinList+"&tsyms=USD")
+    return this._http.get("https://min-api.cryptocompare.com/data/pricemulti?fsyms="+coinlist+"&tsyms=USD")
       .map(result => this.result = result);
 
   }
