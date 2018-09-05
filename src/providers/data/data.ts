@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /*
@@ -10,8 +10,16 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DataProvider {
 
-  constructor(public http: HttpClient) {
+  result:any;
+
+  constructor(public _http: HttpClient) {
     console.log('Hello DataProvider Provider');
+  }
+
+  getCoins() {
+
+    return this._http.get("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD")
+      .map(result => this.result = result);
   }
 
 }
