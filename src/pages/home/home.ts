@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
 import { Storage } from '@ionic/storage';
 import { Chart } from 'chart.js';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -17,7 +18,7 @@ export class HomePage {
   likedCoins = [];
   chart = [];
 
-  constructor(public navCtrl: NavController, private _data: DataProvider, private storage: Storage) {
+  constructor(public navCtrl: NavController, private _data: DataProvider, private storage: Storage, public loading: LoadingController) {
     this.storage.remove('likedCoins');
   }
 
@@ -31,28 +32,38 @@ export class HomePage {
 
   refreshCoins() {
 
-    this.storage.get('likedCoins').then((val) => {
+    let loader = this.loading.create({
+      content: 'Refreshing..',
+      spinner: 'bubbles'
+    });
 
-      // If the value is not set, then:
-      if (!val) {
-        this.likedCoins.push('BTC', 'ETH', 'IOT');
-        this.storage.set('likedCoins', this.likedCoins);
+    loader.present().then( () => {
 
-        this._data.getCoins(this.likedCoins)
-          .subscribe(res => {
-            this.coins = res;
-          })
-      }
-      // It's set
-      else {
-        this.likedCoins = val;
+      this.storage.get('likedCoins').then((val) => {
 
-        this._data.getCoins(this.likedCoins)
-          .subscribe(res => {
-            this.coins = res;
-          })
-      }
+        // If the value is not set, then:
+        if (!val) {
+          this.likedCoins.push('BTC', 'ETH', 'IOT');
+          this.storage.set('likedCoins', this.likedCoins);
 
+          this._data.getCoins(this.likedCoins)
+            .subscribe(res => {
+              this.coins = res;
+              loader.dismiss();
+            })
+        }
+        // It's set
+        else {
+          this.likedCoins = val;
+
+          this._data.getCoins(this.likedCoins)
+            .subscribe(res => {
+              this.coins = res;
+              loader.dismiss();
+            })
+        }
+
+      })
     })
 
   }
